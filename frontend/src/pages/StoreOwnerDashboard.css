@@ -1,0 +1,73 @@
+.owner-container {
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+  background: #f4f6f8;
+  min-height: 100vh;
+}
+
+.owner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.owner-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.rating {
+  color: #4f46e5;
+  font-weight: bold;
+}
+
+.btn {
+  padding: 10px 14px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn.danger {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.error {
+  background: #fdecea;
+  color: #b91c1c;
+  padding: 15px;
+  border-radius: 6px;
+}
+.owner-card input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.info {
+  background: #e3f2fd;
+  color: #1565c0;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}

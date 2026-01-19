@@ -7,11 +7,11 @@
 git clone <your-github-repo-link>
 cd Store_Rating_App
 
-###2. Backend Setup
+### 2. Backend Setup
 cd backend
 npm install
 
-###Create a .env file inside the backend folder
+### Create a .env file inside the backend folder
 PORT=5000
 DB_HOST=localhost
 DB_PORT=5432
@@ -20,7 +20,7 @@ DB_PASSWORD=1234
 DB_NAME=store_rating_db
 JWT_SECRET=your_jwt_secret
 
-####Start the backend server
+#### Start the backend server
 npm run dev
 Backend will run on:
 http://localhost:5000

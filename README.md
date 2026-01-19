@@ -3,31 +3,52 @@
 ## How to Run the Project Locally
 
 ### 1. Clone the Repository
-#### git clone <your-github-repo-link>
-#### cd Store_Rating_App
+- git clone <your-github-repo-link>
+- cd Store_Rating_App
 
 ### 2. Backend Setup
-#### cd backend
-#### npm install
+- cd backend
+- npm install
 
 ### Create a .env file inside the backend folder
-#### PORT=5000
-#### DB_HOST=localhost
-#### DB_PORT=5432
-#### DB_USER=postgres
-#### DB_PASSWORD=1234
-#### DB_NAME=store_rating_db
-#### JWT_SECRET=your_jwt_secret
+- PORT=5000
+- DB_HOST=localhost
+- DB_PORT=5432
+- DB_USER=postgres
+- DB_PASSWORD=1234
+- DB_NAME=store_rating_db
+- JWT_SECRET=your_jwt_secret
 
-#### Start the backend server
-#### npm run dev
-#### Backend will run on:
-#### http://localhost:5000
+- Start the backend server
+- npm run dev
+- Backend will run on:
+- http://localhost:5000
 
 ### 3. Frontend Setup
-#### cd frontend
-#### npm install
-#### npm run dev
-#### Frontend will run on:
-#### http://localhost:5173
+- cd frontend
+- npm install
+- npm run dev
+- Frontend will run on:
+- http://localhost:5173
+
+## Database Usage (Important)
+
+This application uses **PostgreSQL** as its database.
+
+Before running the project, make sure that:
+- PostgreSQL is installed and running
+- A database named **store_rating_db** is created
+- Database credentials are correctly set in the `.env` file
+
+The database stores:
+- User information (Admin, User, Store Owner)
+- Store details
+- Ratings submitted by users for stores
+
+No automatic database or table creation is done by the application, so the database must be prepared before starting the backend.
+
+Once the database is ready, the application will handle all data operations through the user interface.
+
+---
+
 

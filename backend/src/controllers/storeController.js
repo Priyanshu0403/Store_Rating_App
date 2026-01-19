@@ -23,26 +23,48 @@ export const createStore = async (req, res) => {
 
 export const getAllStores = async (req, res) => {
   try {
-    const result = await pool.query(
-      `SELECT 
-         s.id,
-         s.name,
-         s.address,
-         ROUND(AVG(r.rating), 1) AS average_rating
-       FROM stores s
-       LEFT JOIN ratings r ON s.id = r.store_id
-       GROUP BY s.id
-       ORDER BY s.name ASC`
-    );
+    const { name, address } = req.query;
+    const userId = req.user?.id; // comes from verifyToken middleware
 
-    if(result.rows.length ===0){
-        return res.status(404).json({
-            status:"failed",
-            message:"No store available"
-        })
+    let query = `
+      SELECT
+        s.id,
+        s.name,
+        s.address,
+        ROUND(AVG(r.rating), 1) AS average_rating,
+        ur.rating AS user_rating
+      FROM stores s
+      LEFT JOIN ratings r ON s.id = r.store_id
+      LEFT JOIN ratings ur 
+        ON ur.store_id = s.id AND ur.user_id = $1
+      WHERE 1=1
+    `;
+
+    const params = [userId];
+    let paramIndex = 2;
+
+    if (name) {
+      query += ` AND s.name ILIKE $${paramIndex}`;
+      params.push(`%${name}%`);
+      paramIndex++;
     }
+
+    if (address) {
+      query += ` AND s.address ILIKE $${paramIndex}`;
+      params.push(`%${address}%`);
+      paramIndex++;
+    }
+
+    query += `
+      GROUP BY s.id, ur.rating
+      ORDER BY s.name ASC
+    `;
+
+    const result = await pool.query(query, params);
+
     res.json(result.rows);
   } catch (error) {
+    console.error("Get stores error:", error);
     res.status(500).json({ message: "Server error" });
   }
 };

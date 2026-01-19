@@ -55,40 +55,48 @@ export const storeOwnerDashboard = async (req, res) => {
   try {
     const ownerId = req.user.id;
 
+    // Get store owned by this user
     const storeResult = await pool.query(
       "SELECT id, name FROM stores WHERE owner_id = $1",
       [ownerId]
     );
 
     if (storeResult.rows.length === 0) {
-      return res.status(404).json({ message: "No store assigned" });
+      return res.status(404).json({
+        message: "No store assigned to this owner",
+      });
     }
 
-    const storeId = storeResult.rows[0].id;
+    const store = storeResult.rows[0];
 
-    const ratingData = await pool.query(
-      `SELECT 
-         u.name,
-         u.email,
-         r.rating
-       FROM ratings r
-       JOIN users u ON r.user_id = u.id
-       WHERE r.store_id = $1`,
-      [storeId]
+    // Get ratings + users
+    const ratingResult = await pool.query(
+      `
+      SELECT 
+        u.name,
+        u.email,
+        r.rating
+      FROM ratings r
+      JOIN users u ON r.user_id = u.id
+      WHERE r.store_id = $1
+      ORDER BY r.rating DESC
+      `,
+      [store.id]
     );
 
+    // Average rating
     const avgResult = await pool.query(
-      "SELECT ROUND(AVG(rating),1) AS average_rating FROM ratings WHERE store_id = $1",
-      [storeId]
+      "SELECT ROUND(AVG(rating), 1) AS avg FROM ratings WHERE store_id = $1",
+      [store.id]
     );
 
     res.json({
-      store: storeResult.rows[0].name,
-      averageRating: avgResult.rows[0].average_rating,
-      ratings: ratingData.rows
+      store: store.name,
+      averageRating: avgResult.rows[0].avg ?? "N/A",
+      ratings: ratingResult.rows,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Store owner dashboard error:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
